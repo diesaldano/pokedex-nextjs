@@ -2,13 +2,10 @@
 import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
-const url = 'https://pokeapi.co/api/v2/pokemon';
 
-const useData = (url: string, limit:string
-  
-  ) => {
-  // const uri = name ? `${API_URL}/${name}` : `${API_URL}?limit=${PAGE_LIMIT}`;
-  const { data, error } = useSWR(url, fetcher);
+const useData = (URL: string, LIMIT:string) => {
+  const uri = (!LIMIT || LIMIT == '0') ? `${URL}` : `${URL}?limit=${LIMIT}`;
+  const { data, error } = useSWR(uri, fetcher);
   return { data, error };
 };
 
