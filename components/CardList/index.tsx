@@ -3,7 +3,7 @@ import CardItem from '../CardItem'
 import UseData from '../../hooks/useData'
 
 const CardList: NextComponentType = () => {
-    const { data, error } = UseData('https://pokeapi.co/api/v2/pokemon')
+    const { data, error } = UseData('https://pokeapi.co/api/v2/pokemon', '151')
     if(error) return <div>Error...</div>
     if(!data) return <div>Loading...</div>
 
