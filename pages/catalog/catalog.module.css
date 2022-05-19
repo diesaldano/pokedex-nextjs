@@ -1,0 +1,23 @@
+.imageContainer {
+    width: 100%;
+    position: relative;
+  }
+  
+  .imageContainer > span {
+    position: unset !important;
+  }
+  
+  .image {
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
+  }
+
+  .titulo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
