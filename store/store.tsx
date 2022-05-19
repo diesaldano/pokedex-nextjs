@@ -11,6 +11,14 @@ const usePokedex = create(
                     pokemon: params
                 }));
             },
+            currentPage: 20,
+            setCurrentPage: (params: any) => {
+                set(state => ({
+                    ...state,
+                    currentPage: params
+                }));
+            }
+
         }),
         {name: "pokedex"}
     ),
