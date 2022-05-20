@@ -6,21 +6,63 @@ import useData from '../../hooks/useData'
 import Image from 'next/image'
 import styles from './CardItem.module.css'
 import usePokedex from '../../store/store'
-// import '/styles/CardItem.module.css'
+import Loading from '../../components/Loading'
 
-const CardItem: NextComponentType = ({pokemon}) => {
+const CardItem: NextComponentType = ({pokemon}: any ) => {
+    console.log(pokemon)
+
     const router = useRouter()
     const { data, error } = useData(pokemon.url, '0')
 
     const state = usePokedex(state => state)
     const setSelectedPokemon = usePokedex((state: any) => state.setSelectedPokemon)
+    const setLoading = usePokedex((state: any) => state.setLoading)
+    const loading = usePokedex((state: any) => state.loading)
+    const clearCurrentPage = usePokedex((state: any) => state.clearCurrentPage)
+
+    // use efect clear current page
+    // React.useEffect(() => {
+    //     clearCurrentPage();
+    // }, [state])
     
     if(error) return <div>Error...</div>
-    if(!data) return <div>Loading...</div>
+    if(!data) return <Loading />
     
     let name: string = data.name.charAt(0).toUpperCase() + data.name.slice(1)
-    let type: string = data.types.map((type: any) => type.type.name).join(' ')
     let image: string = data.sprites.other.home.front_default
+
+    const types = () => {
+        return data.types.map((type: any) => {
+            const color: {[key: string]: string} =  {
+                    normal: '#A8A878',
+                    fighting: '#C03028',
+                    flying: '#A890F0',
+                    poison: '#A040A0',
+                    ground: '#E0C068',
+                    rock: '#B8A038',
+                    bug: '#A8B820',
+                    ghost: '#705898',
+                    steel: '#B8B8D0',
+                    fire: '#F08030',
+                    water: '#6890F0',
+                    grass: '#78C850',
+                    electric: '#F8D030',
+                    psychic: '#F85888',
+                    ice: '#98D8D8',
+                    dragon: '#7038F8',
+                    dark: '#705848',
+                    fairy: '#EE99AC',
+                    default: '#A8A878'
+            }
+
+            const typeName: string = type.type.name
+            const typeColor: string = color[typeName] || color['default']
+
+            return <span key={type.type.name} className={styles.type} style={{ backgroundColor: `${typeColor}` }}>
+                        {type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)}
+                    </span>
+        })
+    }
     
     function handleClick(data: any){
         setSelectedPokemon(data)
@@ -28,9 +70,10 @@ const CardItem: NextComponentType = ({pokemon}) => {
     }
 
     return (
-        <div className='pepe'  onClick={()=> handleClick(data)}>
-            <div className='max-w-md mx-auto px-8 py-8 bg-white shadow-lg rounded-sm '>
-                <span>{type}</span>
+        <div onClick={()=> handleClick(data)}>
+            <div className='max-w-md mx-auto px-8 py-8 bg-white shadow-lg rounded-sm'>
+                {/* <span>{type}</span> */}
+                {types()}
                 <div className={styles.imageContainer}>
                     <Image src={image} 
                         alt={data.name}
@@ -41,7 +84,9 @@ const CardItem: NextComponentType = ({pokemon}) => {
                     />
                 </div>
             </div>
-            <h5>{ name }</h5>
+            <div className='max-w-md mx-auto px-2 py-4'>
+                <h5 className={styles.name}>{ name }</h5>
+            </div>
         </div>
     )
 

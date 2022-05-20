@@ -1,0 +1,50 @@
+.loading {
+    background: linear-gradient(90deg, rgba(250,250,250,1), rgb(200, 199, 199));
+    background-size: 400% 400%;
+    animation: loadingAnimation 3s ease-in-out infinite;
+    border-radius: 2px;
+    padding: 2em;
+}
+
+@keyframes loadingAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .cardloading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fillname {
+    border-radius: 15px;
+    background: linear-gradient(90deg, rgba(250,250,250,1), rgb(200, 199, 199));
+    width: 200px;
+    height: 20px;
+  }
+
+  .imageContainer {
+    width: 100%;
+    position: relative;
+  }
+  
+  .imageContainer > span {
+    position: unset !important;
+  }
+  
+  .image {
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
+
+  }
