@@ -7,13 +7,17 @@ export interface PokemonProps {
 }
 
 //store
+export interface appConfig {
+    home: {
+        app: string,
+        title: string,
+        description: string,
+        loadButton: string
+    }
+}
+
 export interface store {
-    appConfig: {
-        home: {
-            title: string,
-            description: string,
-        }
-    },
+    appConfig: appConfig,
     pokemon: {},
     setSelectedPokemon: (params: any) => void,
     currentPage: number,

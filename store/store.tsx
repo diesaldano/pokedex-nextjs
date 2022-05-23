@@ -1,5 +1,6 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
+import { appConfig } from "../interfaces/interfaces";
 
 
 const usePokedex = create(
@@ -13,11 +14,11 @@ const usePokedex = create(
                     loadButton: "Load more"
                 }
             },
-            setAppConfig: (newConfig: object) => {
-                set(state => {
-                    state.appConfig = newConfig
-                })
-            },
+            // setAppConfig: (newConfig: appConfig) => {
+            //     set(state => {
+            //         state.appConfig = newConfig
+            //     })
+            // },
             pokemon: {},
             setSelectedPokemon: (params: object) => {
                 set(state => ({

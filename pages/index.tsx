@@ -7,13 +7,14 @@ import useData from '../hooks/useData'
 import usePokedex from '../store/store'
 import Loading from '../components/Loading'
 import { useEffect } from 'react'
+import { appConfig } from '../interfaces/interfaces'
 
 const Home: NextPage = () => {
     const app = usePokedex((state: any) => state.appConfig.home.app)
     const titulo = usePokedex((state: any) => state.appConfig.home.title)
     const descripcion = usePokedex((state: any) => state.appConfig.home.description)
     const loadButton = usePokedex((state: any) => state.appConfig.home.loadButton)
-    const setAppConfig = usePokedex((state: any) => state.setAppConfig)
+    // const setAppConfig: appConfig = usePokedex((state: any) => state.setAppConfig)
     const currentPage = usePokedex((state:any) => state.currentPage)
     const setCurrentPage = usePokedex((state: any) => state.setCurrentPage)
     const clearCurrentPage = usePokedex((state: any) => state.clearCurrentPage)
@@ -27,7 +28,6 @@ const Home: NextPage = () => {
 
     if(error) return <div>Error...</div>
     
-
     //start app or refresh page clear data
     useEffect(() => {
         clearCurrentPage()
