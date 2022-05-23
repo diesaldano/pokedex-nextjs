@@ -1,8 +1,5 @@
 import type { NextComponentType } from 'next'
-
-type Props = {
-    children?: JSX.Element
-}
+import type { Props } from '../../types/types'
 
 const CardList: NextComponentType = ({children}: Props) => {
 
