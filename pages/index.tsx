@@ -24,15 +24,16 @@ const Home: NextPage = () => {
         loading: () => <Loading />
     })
     
-    const { data, error } = useData(`https://pokeapi.co/api/v2/pokemon/?limit=${currentPage}`, '0')
-
-    if(error) return <div>Error...</div>
-    
     //start app or refresh page clear data
     useEffect(() => {
-        clearCurrentPage()
+        return () => {
+            clearCurrentPage()
+        }
     }, [])
 
+    const { data, error } = useData(`https://pokeapi.co/api/v2/pokemon/?limit=${currentPage}`, '0')
+    if(error) return <div>Error...</div>
+    
     //onclick load more button lazy loading
     const lazyLoad = () => {
         setCurrentPage(currentPage + 20)
