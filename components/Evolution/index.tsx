@@ -3,15 +3,15 @@ import useData from "../../hooks/useData"
 import CardItem from "../CardItem"
 import { useRouter } from "next/router"
 import Loading from "../Loading"
+import { PropsUrl } from "../../types/types"
 
-const Evolution: NextComponentType = ({url}: any) => {
+function Evolution({url}: PropsUrl): JSX.Element {
     const router = useRouter()
     let id = router.query.name
     //use the hook to get the data
     const { data, error } = useData(url, '0')
     if(error) return <div>Error...</div>
     if(!data) return <div>Loading...</div>
-
 
     function Evolutions() {
         let nextEvolution =  data.chain.evolves_to.map((evolution: any) => {

@@ -5,7 +5,6 @@ import skeleton from '../../assets/skeleton.png'
 
 const Loading: NextComponentType = () => {
     return (
-        // <div className="max-w-md mx-auto px-8 py-8 bg-white shadow-lg rounded-sm" 
         <div className={styles.loading } >
             <div className={styles.imageContainer}>
                 <Image

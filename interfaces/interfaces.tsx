@@ -1,7 +1,7 @@
 
 import {types} from '../types/types'
 
-export interface pokemon {
+export interface PokemonProps {
     name: string,
     url: string
 }

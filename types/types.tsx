@@ -1,5 +1,6 @@
+import { PokemonProps } from "../interfaces/interfaces"
 
-export type Props = {
+export type PropsChildren = {
     children?: JSX.Element | undefined
 }
 
@@ -11,4 +12,12 @@ export type PropsObject = {
 export type types = {
     slot: number,
     type: {[key: string]: string}
+}
+
+export type Props = {
+    pokemon: PokemonProps
+}
+
+export type PropsUrl = {
+    url: string
 }

@@ -1,12 +1,10 @@
 //import next component
 import { NextComponentType } from "next"
 import useData from "../../hooks/useData"
-
+import { PropsUrl } from "../../types/types"
 
 //create component habitats
-const Habitat: NextComponentType<{url: string}>  = ( {url}: any) => {
-    //use the hook to get the data
-
+function Habitat( {url}: PropsUrl): JSX.Element {
     const { data, error } = useData(url, '0')
     if(error) return <div>Error...</div>
     if(!data) return <div>Loading...</div>

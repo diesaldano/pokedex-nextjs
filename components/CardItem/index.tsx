@@ -6,10 +6,10 @@ import Image from 'next/image'
 import styles from './CardItem.module.css'
 import usePokedex from '../../store/store'
 import Loading from '../../components/Loading'
-import type { Props, types } from '../../types/types'
-import { pokemonData } from '../../interfaces/interfaces'
+import type { types, Props } from '../../types/types'
+import { pokemonData  } from '../../interfaces/interfaces'
 
-const CardItem: NextComponentType<Props> = ({pokemon}: any ) => {
+function CardItem ({pokemon}: Props ): JSX.Element {
     const router = useRouter()
     const { data, error } = useData(pokemon.url, '0')
 
