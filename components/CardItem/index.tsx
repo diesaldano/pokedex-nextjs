@@ -60,7 +60,7 @@ function CardItem ({pokemon}: Props ): JSX.Element {
     }
 
     return (
-        <div onClick={()=> handleClick(data)}>
+        <div className='handleClick' onClick={()=> handleClick(data)}>
             <div className='max-w-md mx-auto px-8 py-8 bg-white shadow-lg rounded-sm'>
                 {types()}
                 <div className={styles.imageContainer}>

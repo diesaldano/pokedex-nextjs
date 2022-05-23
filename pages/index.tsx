@@ -26,9 +26,7 @@ const Home: NextPage = () => {
     
     //start app or refresh page clear data
     useEffect(() => {
-        return () => {
             clearCurrentPage()
-        }
     }, [])
 
     const { data, error } = useData(`https://pokeapi.co/api/v2/pokemon/?limit=${currentPage}`, '0')
