@@ -1,78 +1,70 @@
-import type { NextComponentType } from 'next'
-import { useState } from 'react'
-import usePokedex from '../../store/store'
-import Image from 'next/image'
-import styles from './catalog.module.css'
-import useData from '../../hooks/useData'
-import Evolution from '../../components/Evolution'
 import React from 'react'
+import type { NextComponentType } from 'next'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+import useData from '../../hooks/useData'
+import usePokedex from '../../store/store'
+import Evolution from '../../components/Evolution'
+import Habitat from '../../components/Habitat'
+import styles from './catalog.module.css'
+import { pokemonData } from '../../interfaces/interfaces'
 
-const Detail: NextComponentType = () => {
-    
-    const store = usePokedex()
-    const state = useState(usePokedex((state: any) => state))
-    
-    if(!state) return (<div>loading</div>)
-    const { pokemon } = state[0]
+//server side rendering example receive pathname 
+export async function getServerSideProps(context) {
+    const { name } = context.query
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    const pokemon = await res.json()
+  
+    // Pass data to the page via props
+    return { props: { pokemon } }
+  }
+
+const Detail: NextComponentType = ({pokemon}) => {
+    const CardItem = dynamic(() => import('../../components/CardItem'))
+
     let image: string = pokemon.sprites.other.home.front_default
     let name: string = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
-    let type: string = pokemon.types.map((type: any) => type.type.name).join(' ')
+
     const { data, error } = useData(pokemon.species.url, '0')
-    React.useEffect(() => {
-        console.log(store, state)
-    }, [state])
     if(!data) return (<div>loading...</div>)
+    
+    let { url } = data.habitat
+    
     return (
-        <div>
-            <div className='max-w-md mx-4 px-8 py-8 bg-white shadow-lg rounded-sm '>
-                <span>{type}</span>
-                <div className={styles.imageContainer} >
-                    <Image src={image} 
-                        alt={name}
-                        className={styles.image}
-                        objectFit='contain'
-                        layout={'fill'}
-                    />
+        <div className={styles.container}>
+            <div className={styles.layout}>
+                <div className={styles.columnImage}>
+                    <div className={styles.imageContainer} >
+                        <Image src={pokemon.sprites.other.home.front_default} 
+                            alt={pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+                            className={styles.image}
+                            objectFit='contain'
+                            layout={'fill'}
+                        />
+                    </div>
+                </div>
+                <div className={styles.column}>
+                    <h1 className={styles.titulo}>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h1> 
+                    <Habitat url={url}/>
+                    <h5 className={styles.description}>Description</h5>
+                    {
+                        !data ? <div>Error...</div> :
+                        !data ? <div>Loading...</div> :
+                        <p className={styles.paragraph}>
+                            {   
+                                data.flavor_text_entries.map(
+                                    (flavor: any) => {
+                                        if(flavor.language.name === 'en'){
+                                            return flavor.flavor_text.replace(/[^a-zA-Z ]/gi, ' ')
+                                        }
+                                    }).join(' ')
+                            }
+                        </p>                            
+                    }
                 </div>
             </div>
-             <div className='mx-4 my-4'>
-                 <h1 className={styles.titulo}>{name}</h1>
-                 <p>
-                    {
-
-                    }
-                    Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Massa diam nisi enim
-                    convallis. Eget in malesuada enim diam
-                    lectus. Odio arcu egestas nibh aliquet
-                    tortor. Posuere est curabitur aliquam,
-                    malesuada neque, vitae arcu. Ac quam sit
-                    purus consequat rutrum sit elementum.
-                    Scelerisque commodo iaculis amet,
-                    tincidunt sodales. Lacus, arcu, convallis
-                    nulla ipsum. Eleifend consequat mauris
-                    volutpat commodo. Tellus ullamcorper dui
-                    ac condimentum. Mauris purus nibh augue
-                    non quis vitae. Aliquam tellus faucibus in id
-                 </p>
-                 
-                 <h5>Description</h5>
-                {
-                    !data ? <div>Error...</div> :
-                    !data ? <div>Loading...</div> :
-                    <p>
-                        {   
-                            data.flavor_text_entries.map(
-                                (flavor: any) => {
-                                    if(flavor.language.name === 'en'){
-                                        return flavor.flavor_text
-                                    }
-                                }).join(' ')
-                        }
-                    </p>                            
-                }
-             </div>
-             < Evolution url={data.evolution_chain.url} />
+            < Evolution url={data.evolution_chain.url} />
         </div>
     )
 }

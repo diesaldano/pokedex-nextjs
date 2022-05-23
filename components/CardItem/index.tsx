@@ -1,30 +1,21 @@
+import React from 'react'
 import type { NextComponentType } from 'next'
 import { useRouter } from 'next/router'
-
-import React from 'react'
 import useData from '../../hooks/useData'
 import Image from 'next/image'
 import styles from './CardItem.module.css'
 import usePokedex from '../../store/store'
 import Loading from '../../components/Loading'
+import type { Props, types } from '../../types/types'
+import { pokemonData } from '../../interfaces/interfaces'
 
-const CardItem: NextComponentType = ({pokemon}: any ) => {
-    console.log(pokemon)
-
+const CardItem: NextComponentType<Props> = ({pokemon}: any ) => {
     const router = useRouter()
     const { data, error } = useData(pokemon.url, '0')
 
-    const state = usePokedex(state => state)
-    const setSelectedPokemon = usePokedex((state: any) => state.setSelectedPokemon)
-    const setLoading = usePokedex((state: any) => state.setLoading)
-    const loading = usePokedex((state: any) => state.loading)
-    const clearCurrentPage = usePokedex((state: any) => state.clearCurrentPage)
+    const setSelectedPokemon: (data: pokemonData) => void = usePokedex((state: any) => state.setSelectedPokemon)
+    const clearCurrentPage: () => void = usePokedex((state: any) => state.clearCurrentPage)
 
-    // use efect clear current page
-    // React.useEffect(() => {
-    //     clearCurrentPage();
-    // }, [state])
-    
     if(error) return <div>Error...</div>
     if(!data) return <Loading />
     
@@ -32,7 +23,7 @@ const CardItem: NextComponentType = ({pokemon}: any ) => {
     let image: string = data.sprites.other.home.front_default
 
     const types = () => {
-        return data.types.map((type: any) => {
+        return data.types.map((type: types) => {
             const color: {[key: string]: string} =  {
                     normal: '#A8A878',
                     fighting: '#C03028',
@@ -54,7 +45,6 @@ const CardItem: NextComponentType = ({pokemon}: any ) => {
                     fairy: '#EE99AC',
                     default: '#A8A878'
             }
-
             const typeName: string = type.type.name
             const typeColor: string = color[typeName] || color['default']
 
@@ -64,7 +54,7 @@ const CardItem: NextComponentType = ({pokemon}: any ) => {
         })
     }
     
-    function handleClick(data: any){
+    function handleClick(data: pokemonData){
         setSelectedPokemon(data)
         router.push(`/catalog/${data.name}`)
     }
@@ -72,7 +62,6 @@ const CardItem: NextComponentType = ({pokemon}: any ) => {
     return (
         <div onClick={()=> handleClick(data)}>
             <div className='max-w-md mx-auto px-8 py-8 bg-white shadow-lg rounded-sm'>
-                {/* <span>{type}</span> */}
                 {types()}
                 <div className={styles.imageContainer}>
                     <Image src={image} 
