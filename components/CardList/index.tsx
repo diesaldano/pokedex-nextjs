@@ -1,8 +1,7 @@
 import type { NextComponentType } from 'next'
-import type { Props } from '../../types/types'
+import type { PropsChildren } from '../../types/types'
 
-const CardList: NextComponentType = ({children}: Props) => {
-
+function CardList({children}: PropsChildren){
     return (
         <div className="container mx-auto">
             <div className="flex flex-wrap justify-center">

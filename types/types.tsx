@@ -1,7 +1,7 @@
 import { PokemonProps } from "../interfaces/interfaces"
 
 export type PropsChildren = {
-    children?: JSX.Element | undefined
+    children?: JSX.Element|JSX.Element[]
 }
 
 export type PropsObject = {
